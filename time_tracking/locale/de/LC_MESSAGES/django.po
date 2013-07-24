@@ -1,0 +1,468 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-15 02:18+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: admin.py:42 admin.py:203 models.py:206 models.py:584
+#: templates/time_tracking/bill_detail.html:84
+msgid "rate"
+msgstr "Stundensatz"
+
+#: admin.py:50
+msgid "Project"
+msgstr "Projekt"
+
+#: admin.py:77
+msgid "Some entries were already billed and were not added to this bill."
+msgstr ""
+"Einige Einträge wurden bereits abgerechnet und wurden nicht zu dieser "
+"Abrechnung hinzugefügt"
+
+#: admin.py:86
+#, python-format
+msgid "Create bill with selected %(verbose_name_plural)s"
+msgstr "%(verbose_name_plural)s in Abrechnung übernehmen"
+
+#: admin.py:164
+#, python-format
+msgid "Please clock out first. Clocked in: %s"
+msgstr "Bitte zuerst ausstempeln. Eingestempelt: %s"
+
+#: admin.py:167 admin.py:191
+#, python-format
+msgid "Clocked out: %s"
+msgstr "Ausgestempelt: %s"
+
+#: admin.py:174
+#, python-format
+msgid "Clocked into %(project)s: %(clock)s"
+msgstr "Eingestempelt in %(project)s: %(clock)s"
+
+#: admin.py:177
+#, python-format
+msgid "Clocked in: %(clock)s"
+msgstr "Eingestempelt: %(clock)s"
+
+#: admin.py:180
+msgid "In order to be able to clock in, you'll have to create a first entry."
+msgstr ""
+"Um künftig einstempeln zu können, muss zuerst ein Eintrag erstellt werden."
+
+#: admin.py:193
+msgid "Please clock in first."
+msgstr "Bitte zuerst einstempeln."
+
+#: admin.py:199 models.py:589 templates/time_tracking/bill_detail.html:87
+msgid "cost"
+msgstr "Kosten"
+
+#: admin.py:211
+msgid "groups"
+msgstr "Gruppen"
+
+#: admin.py:215 models.py:107
+msgid "budget"
+msgstr "Budget"
+
+#: admin.py:220 models.py:135
+msgid "hours spent"
+msgstr "Stunden aufgewendet"
+
+#: admin.py:224 models.py:139
+msgid "budget spent"
+msgstr "Budget verbraucht"
+
+#: admin.py:228 models.py:145
+msgid "balance"
+msgstr "Saldo"
+
+#: admin.py:232 models.py:151
+msgid "coverage"
+msgstr "Deckung"
+
+#: admin.py:240
+msgid "users"
+msgstr "Benutzer"
+
+#: admin.py:245
+msgid "total"
+msgstr "Total"
+
+#: forms.py:34
+#, python-format
+msgid "Start is overlapping with %s."
+msgstr "Start überschneidet sich mit %s."
+
+#: forms.py:43
+#, python-format
+msgid "End is overlapping with %s."
+msgstr "Ende überschneidet sich mit %s."
+
+#: forms.py:53
+#, python-format
+msgid "Start/end are overlapping with %s."
+msgstr "Start/Ende überschneiden sich mit %s."
+
+#: forms.py:56
+msgid "Please enter either end or hours, but not both."
+msgstr "Bitte entweder Ende oder Stunden angeben, aber nicht beides."
+
+#: forms.py:64
+msgid "End must be later than start."
+msgstr "Ende muss nach Start sein."
+
+#: models.py:33
+msgid "Group"
+msgstr "Gruppe"
+
+#: models.py:34
+msgid "Groups"
+msgstr "Gruppen"
+
+#: models.py:59 models.py:106
+msgid "name"
+msgstr "Name"
+
+#: models.py:60
+msgid "type"
+msgstr "Typ"
+
+#: models.py:60 models.py:63
+msgid "work"
+msgstr "Arbeit"
+
+#: models.py:60 models.py:65
+msgid "paid leave"
+msgstr "bezahlte Absenz"
+
+#: models.py:60 models.py:66
+msgid "unpaid leave"
+msgstr "unbezahlte Absenz"
+
+#: models.py:61
+msgid "temporal factor"
+msgstr "Zeitfaktor"
+
+#: models.py:64
+msgid "leave"
+msgstr "Absenz"
+
+#: models.py:67
+msgid "sick leave"
+msgstr "Krankheitsabsenz"
+
+#: models.py:68
+msgid "holidays"
+msgstr "Ferien"
+
+#: models.py:69
+msgid "compensatory time"
+msgstr "Kompensation Überzeit"
+
+#: models.py:73 models.py:202 models.py:332
+#: templates/time_tracking/bill_detail.html:83
+msgid "activity"
+msgstr "Aktivität"
+
+#: models.py:74
+msgid "activities"
+msgstr "Aktivitäten"
+
+#: models.py:109 models.py:287
+msgid "status"
+msgstr "Status"
+
+#: models.py:109
+msgid "active"
+msgstr "aktiv"
+
+#: models.py:109
+msgid "completed"
+msgstr "abgeschlossen"
+
+#: models.py:113 models.py:334 templates/time_tracking/bill_detail.html:82
+msgid "project"
+msgstr "Projekt"
+
+#: models.py:114 templates/admin/time_tracking/clock/change_list.html:72
+msgid "projects"
+msgstr "Projekte"
+
+#: models.py:175
+msgid "all users"
+msgstr "alle Benutzer"
+
+#: models.py:176 models.py:201 models.py:220 models.py:331
+msgid "user"
+msgstr "Benutzer"
+
+#: models.py:203
+msgid "hourly rate"
+msgstr "Stundensatz"
+
+#: models.py:207
+msgid "rates"
+msgstr "Stundensätze"
+
+#: models.py:221
+msgid "display balance"
+msgstr "Saldo anzeigen"
+
+#: models.py:222
+msgid "display closing time"
+msgstr "Feierabend anzeigen"
+
+#: models.py:223
+msgid "hours per week"
+msgstr "Wochenstunden"
+
+#: models.py:224
+msgid "unpaid break"
+msgstr "unbezahlte Pause"
+
+#: models.py:235 models.py:236
+msgid "clock options"
+msgstr "Zeiterfassungs-Optionen"
+
+#: models.py:270 templates/admin/time_tracking/clock/change_list.html:58
+msgid "working days"
+msgstr "Arbeitstage"
+
+#: models.py:280
+msgid "created"
+msgstr "erstellt"
+
+#: models.py:281
+msgid "closed"
+msgstr "abgeschlossen"
+
+#: models.py:284
+msgid "reference #"
+msgstr "Referenz #"
+
+#: models.py:285 models.py:286 models.py:634
+#: templates/time_tracking/bill_detail.html:81
+msgid "date"
+msgstr "Datum"
+
+#: models.py:288
+msgid "recipient"
+msgstr "Empfänger"
+
+#: models.py:289
+msgid "due date"
+msgstr "Fälligkeitsdatum"
+
+#: models.py:290 models.py:335 templates/time_tracking/bill_detail.html:86
+msgid "comment"
+msgstr "Kommentar"
+
+#: models.py:293 models.py:336
+msgid "bill"
+msgstr "Abrechnung"
+
+#: models.py:294
+msgid "bills"
+msgstr "Abrechnungen"
+
+#: models.py:306
+msgid "invoice"
+msgstr "Rechnung"
+
+#: models.py:321 templates/admin/time_tracking/clock/change_list.html:79
+msgid "cost total"
+msgstr "Kosten total"
+
+#: models.py:329 models.py:644
+msgid "start"
+msgstr "Start"
+
+#: models.py:330 models.py:654
+msgid "end"
+msgstr "Ende"
+
+#: models.py:333 models.py:603 models.py:610
+#: templates/time_tracking/bill_detail.html:85
+msgid "hours"
+msgstr "Stunden"
+
+#: models.py:337
+msgid "billed rate"
+msgstr "verrechneter Satz"
+
+#: models.py:338
+msgid "billed temporal factor"
+msgstr "verrechneter Zeitfaktor"
+
+#: models.py:342
+msgid "clock entry"
+msgstr "Zeiteintrag"
+
+#: models.py:343
+msgid "clock entries"
+msgstr "Zeiteinträge"
+
+#: models.py:345
+msgid "can set user"
+msgstr "darf Benutzer setzen"
+
+#: models.py:596
+msgid "duration"
+msgstr "Dauer"
+
+#: models.py:630
+msgid "day"
+msgstr "Tag"
+
+#: models.py:639
+msgid "end date"
+msgstr "End-Datum"
+
+#: settings.py:7
+msgid "clock running"
+msgstr "Zeit läuft"
+
+#: templates/admin/time_tracking/clock/change_list.html:9
+#, python-format
+msgid "Add %(name)s"
+msgstr "%(name)s hinzufügen"
+
+#: templates/admin/time_tracking/clock/change_list.html:14
+msgid "Clock out"
+msgstr "Ausstempeln"
+
+#: templates/admin/time_tracking/clock/change_list.html:19
+msgid "Clock in"
+msgstr "Einstempeln"
+
+#: templates/admin/time_tracking/clock/change_list.html:54
+msgid "Time Summary"
+msgstr "Zeit-Übersicht"
+
+#: templates/admin/time_tracking/clock/change_list.html:57
+msgid "Balance"
+msgstr "Saldo"
+
+#: templates/admin/time_tracking/clock/change_list.html:59
+msgid "Target time per week"
+msgstr "Soll-Zeit pro Woche"
+
+#: templates/admin/time_tracking/clock/change_list.html:60
+msgid "Balance until weekend"
+msgstr "Saldo bis Wochenende"
+
+#: templates/admin/time_tracking/clock/change_list.html:61
+msgid "Target time total"
+msgstr "Soll-Zeit total"
+
+#: templates/admin/time_tracking/clock/change_list.html:63
+msgid "Actual time total"
+msgstr "Effektive Zeit total"
+
+#: templates/admin/time_tracking/clock/change_list.html:64
+msgid "Average per day"
+msgstr "Durchschnitt pro Tag"
+
+#: templates/admin/time_tracking/clock/change_list.html:65
+msgid "Time today total"
+msgstr "Zeit heute total"
+
+#: templates/admin/time_tracking/clock/change_list.html:67
+msgid "Closing time"
+msgstr "Feierabend"
+
+#: templates/admin/time_tracking/clock/change_list.html:67
+#, python-format
+msgid "(break: %(break)s)"
+msgstr "(Pause: %(break)s)"
+
+#: templates/admin/time_tracking/clock/change_list.html:69
+msgid "from"
+msgstr "von"
+
+#: templates/admin/time_tracking/clock/change_list.html:70
+msgid "to"
+msgstr "bis"
+
+#: templates/admin/time_tracking/clock/change_list.html:76
+msgid "Billing"
+msgstr "Abrechnung"
+
+#: templates/admin/time_tracking/clock/change_list.html:82
+msgid "unbilled"
+msgstr "nicht abgerechnet"
+
+#: templates/admin/time_tracking/clock/change_list.html:86
+msgid "Filter"
+msgstr "Filter"
+
+#: templates/time_tracking/bill_detail.html:47
+msgid "Invoice"
+msgstr "Rechnung"
+
+#: templates/time_tracking/bill_detail.html:50
+#, python-format
+msgid "reference # %(hash)s"
+msgstr "Referenz # %(hash)s"
+
+#: templates/time_tracking/bill_detail.html:65
+msgid "total amount due"
+msgstr "Fälliger Betrag total"
+
+#: templates/time_tracking/bill_detail.html:69
+#, python-format
+msgid "due by %(due_date)s"
+msgstr "fällig bis %(due_date)s"
+
+#: templates/time_tracking/bill_detail.html:78
+msgid "detailed bill"
+msgstr "Detaillierte Abrechnung"
+
+#: templatetags/clockformats.py:14 templatetags/clockformats.py:17
+#, python-format
+msgid "%s hour"
+msgid_plural "%s hours"
+msgstr[0] "%s Stunde"
+msgstr[1] "%s Stunden"
+
+#: templatetags/clockformats.py:16
+#, python-format
+msgid "%s min"
+msgid_plural "%s min"
+msgstr[0] "%s min"
+msgstr[1] "%s min"
+
+#: templatetags/clockformats.py:23
+#, python-format
+msgid "%s day"
+msgid_plural "%s days"
+msgstr[0] "%s Tag"
+msgstr[1] "%s Tage"
+
+#~ msgid "%(name)s (%(rate)s)"
+#~ msgstr "%(name)s (%(rate)s)"
+
+#~ msgid "hours credited"
+#~ msgstr "Stunden angerechnet"
+
+#~ msgid "Working days"
+#~ msgstr "Arbeitstage"
+
+#~ msgid "Work"
+#~ msgstr "Arbeit"
+
+#~ msgid "Leave"
+#~ msgstr "Abwesenheit"

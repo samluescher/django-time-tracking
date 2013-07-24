@@ -1,0 +1,113 @@
+{% extends "admin/change_list.html" %}
+{% load clockformats admin_list i18n moneyformats %}
+
+{% block object-tools %}
+  {% if has_add_permission %}
+    <ul class="object-tools">
+      <li>
+        <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+          {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+        </a>
+      </li>
+      <li>
+        <a id="clock-out-link" href="#" class="">
+          {% blocktrans with cl.opts.verbose_name as name %}Clock out{% endblocktrans %}
+        </a>
+      </li>
+      <li>
+        <a id="clock-in-link" href="#" class="addlink">
+          {% blocktrans with cl.opts.verbose_name as name %}Clock in{% endblocktrans %}
+        </a>
+      </li>
+    </ul>
+    
+    <form id="clock-in-form" method="post" action="{% url admin:time_tracking_clock_in %}" style="display: block; position: relative; float: right">
+        {% csrf_token %}
+        {{ clock_in_form.as_p }}
+    </form>
+    <div style="float: none; clear: both"></div>
+    <form id="clock-out-form" method="post" action="{% url admin:time_tracking_clock_out %}">
+        {% csrf_token %}
+    </form>
+    <script type="text/javascript">
+     //<![CDATA[
+     (function($) {
+         $(document).ready(function($) {
+             $('#clock-in-link').click(function(event) {
+                 event.preventDefault();
+                 $('#clock-in-form').submit();
+             });
+             $('#clock-out-link').click(function(event) {
+                 event.preventDefault();
+                 $('#clock-out-form').submit();
+             });
+         });
+     })(django.jQuery);
+    //]]>
+    </script>
+
+  {% endif %}
+{% endblock %}
+
+{% block filters %}
+    <div id="changelist-filter" style="width: 200px">
+        <h2>{% trans "Time Summary" %}</h2>
+		<dl id="time-summary" style="margin: 1em 0em 1em 0em">
+		{% if time_info.clock_options.display_balance %}
+		<dt>{% trans "Balance" %}</dt><dd style="font-size: 18px; font-weight: bold; margin: .25em 0em .5em 0em;">{{ time_info.hours.balance|hours:1 }}</dd>
+		<dt>{% trans "working days" %}</dt><dd>{{ time_info.clock_options.working_days_formatted }}</dd>
+		<dt>{% trans "Target time per week" %}</dt><dd>{{ time_info.hours.weekly_target|hours }}</dd>
+		<dt>{% trans "Balance until weekend" %}</dt><dd>{{ time_info.hours.balance_until_weekend|hours:1 }}</dd>
+		<dt>{% trans "Target time total" %}</dt><dd>{{ time_info.hours.target|hours }} ({{ time_info.days.target|days }})</dd>
+		{% endif %}
+		<dt>{% trans "Actual time total" %}</dt><dd>{{ time_info.hours.actual|hours }} ({{ time_info.days.actual|days }})</dd>
+		<dt>{% trans "Average per day" %}</dt><dd>{{ time_info.hours.average_daily|hours }}</dd>
+		<dt>{% trans "Time today total" %}</dt><dd>{{ time_info.hours.today|hours }}</dd>
+		{% if time_info.clock_options.display_closing %}
+		<dt>{% trans "Closing time" %}</dt><dd>{{ time_info.hours.closing.regular|time:"TIME_FORMAT" }}{% if time_info.clock_options.unpaid_break %} {% blocktrans with time_info.hours.break_today|hours:0 as break %}(break: {{ break }}){% endblocktrans %}{% endif %}</dd>
+		{% endif %}
+		<dt>{% trans "from" %}</dt><dd>{{ time_info.dates.from }}</dd>
+		<dt>{% trans "to" %}</dt><dd>{{ time_info.dates.to }}</dd>
+		{% if time_info.projects %}
+		<dt>{% trans "projects" %}</dt><dd>{{ time_info.projects|join:", " }}</dd>
+        {% endif %}
+	    </dl>
+
+        {% if time_info.cost.total or time_info.cost.unbilled %}
+        <h2>{% trans "Billing" %}</h2>
+		<dl id="bill-summary" style="margin: 1em 0em 1em 0em">
+		{% if time_info.cost.total %}
+		<dt>{% trans "cost total" %}</dt><dd>{{ time_info.cost.total|money }}</dd>
+        {% endif %}
+		{% if time_info.cost.unbilled %}
+		<dt>{% trans "unbilled" %}</dt><dd>{{ time_info.cost.unbilled|money }}</dd>
+        {% endif %}
+		</dl>
+        {% endif %}
+
+      {% if cl.has_filters %}
+        <h2>{% trans 'Filter' %}</h2>
+        {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+      {% endif %}
+   </div>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        (function($) {
+            $(document).ready(function($) {
+                // reloads time summary every 30 seconds
+                var reloadSummary = function() {
+                    $.ajax({
+                        url: document.location.href
+                        ,success: function(data) {
+                            $('#time-summary').html($(data).find('#time-summary').html());
+                        }
+                    });
+                }
+                setInterval(reloadSummary, 30000);
+            });
+        })(django.jQuery);
+   //]]>
+   </script>
+{% endblock %}
+
