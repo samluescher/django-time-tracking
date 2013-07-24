@@ -118,7 +118,7 @@ class ClockAdmin(admin.ModelAdmin):
         else:
             initial = {'project': Project.get_latest_for_current_user()}
         extra_context = {
-            'time_info': Clock.summarize(request.user, cl.get_queryset(request)),
+            'time_info': Clock.summarize(request.user, cl.queryset(request)),
             'clock_in_form': ClockInForm(initial=initial),
         }
         
