@@ -1,0 +1,5 @@
+include LICENSE
+include README.md
+recursive-include time_tracking/fixtures *
+recursive-include time_tracking/locale *
+recursive-include time_tracking/templates *
