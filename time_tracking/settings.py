@@ -1,10 +1,10 @@
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.admin.templatetags.adminmedia import admin_media_prefix
 from django.conf import settings
 from django.utils.formats import get_format
+from django.contrib.admin.templatetags.admin_static import static
 import os
 
-STATUS_ICON_CLOCKED_IN = '<img src="%s" alt="%s" />' % (os.path.join(admin_media_prefix(), 'img/admin/icon_clock.gif'), _('clock running'))
+STATUS_ICON_CLOCKED_IN = '<img src="%s" alt="%s" />' % (static('img/admin/icon_clock.gif'), _('clock running'))
 HOURS_DISPLAY_DECIMALS = 2
 WEEKDAY_FORMAT = 'D'
 
