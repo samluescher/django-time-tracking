@@ -106,11 +106,11 @@ class ClockAdmin(admin.ModelAdmin):
             if 'user' not in self.list_display:
                 self.list_display += ('user',)
             self.list_filter = ['start', 'project', 'activity', 'user']
-        
+
         from django.contrib.admin.views.main import ChangeList
         cl = ChangeList(request, self.model, self.list_display, self.list_display_links,
             self.list_filter, self.date_hierarchy, self.search_fields,
-            self.list_select_related, self.list_per_page, self.list_editable, self)
+            self.list_select_related, self.list_per_page, self.list_max_show_all, self.list_editable, self)
         clocked_in_time = Clock.clocked_in_time(request.user)
         if clocked_in_time and clocked_in_time.project:
             # TODO this is not working
