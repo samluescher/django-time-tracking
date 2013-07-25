@@ -4,7 +4,7 @@ from django.utils.formats import get_format
 from django.contrib.admin.templatetags.admin_static import static
 import os
 
-STATUS_ICON_CLOCKED_IN = '<img src="%s" alt="%s" />' % (static('img/admin/icon_clock.gif'), _('clock running'))
+STATUS_ICON_CLOCKED_IN = '<img src="%s" alt="%s" />' % (static('admin/img/icon_clock.gif'), _('clock running'))
 HOURS_DISPLAY_DECIMALS = 2
 WEEKDAY_FORMAT = 'D'
 

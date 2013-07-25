@@ -4,6 +4,7 @@ from time_tracking.settings import *
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils import timezone
 from django.conf import settings
 from django.template.defaultfilters import date as format_date, time as format_time
 from django.core.exceptions import ImproperlyConfigured
@@ -19,7 +20,6 @@ if not 'time_tracking.middleware.CurrentUserMiddleware' in settings.MIDDLEWARE_C
 
 
 from django.db.models import Q
-import datetime
 
 DATE_FORMAT = get_format('DATE_FORMAT')
 SUNDAY = datetime.date(2010, 7, 18) # is a Sunday
@@ -251,7 +251,7 @@ class ClockOptions(AbstractUserOptions):
             attname = 'weekday_%i' % weekday
             field = models.BooleanField(format_date(date, WEEKDAY_FORMAT), default=weekday in WORKING_DAYS_DEFAULT)
             field.contribute_to_class(ClockOptions, attname)
-            date += datetime.timedelta(days=1)
+            date += timezone.timedelta(days=1)
 
     def get_working_days(self):
         date = SUNDAY
@@ -274,7 +274,7 @@ class ClockOptions(AbstractUserOptions):
         for weekday in self.working_days:
             if result != '':
                 result += ', ' 
-            result += format_date(SUNDAY + datetime.timedelta(days=weekday - 1), WEEKDAY_FORMAT)
+            result += format_date(SUNDAY + timezone.timedelta(days=weekday - 1), WEEKDAY_FORMAT)
         return result
     working_days_formatted.short_description = _('working days')
             
@@ -287,7 +287,7 @@ class Clock(models.Model):
     # todo: test with no entries / only one entry etc
     # todo: Balance is incorrect for compensatory time: Target time is raised during such absences, which is wrong since it has already been delivered
 
-    start = models.DateTimeField(_('start'), default=datetime.datetime.today)
+    start = models.DateTimeField(_('start'), default=timezone.make_aware(datetime.datetime.today(), timezone.get_default_timezone()))
     end = models.DateTimeField(_('end'), null=True, blank=True)
     user = models.ForeignKey(User, verbose_name=_('user'), default=CurrentUserMiddleware.get_current_user)
     activity = models.ForeignKey(Activity, verbose_name=_('activity'), default=Activity.get_latest_for_current_user)
@@ -329,13 +329,13 @@ class Clock(models.Model):
         return time
 
     def clock_out(self):
-        self.end = datetime.datetime.now()
+        self.end = timezone.now()
         self.save()
 
     @staticmethod
     def clock_in(user, project=None):
         clock_in_time = Clock()
-        clock_in_time.start = datetime.datetime.now()
+        clock_in_time.start = timezone.now()
         clock_in_time.end = None
         clock_in_time.user = user
         clock_in_time.project = project
@@ -353,7 +353,7 @@ class Clock(models.Model):
         if self.end and not self.hours:
             self.hours = Clock.hours_between(self.start, self.end)
         if self.hours and not self.end:
-            self.end = self.start + datetime.timedelta(hours=self.hours)
+            self.end = self.start + timezone.timedelta(hours=self.hours)
         super(Clock, self).save()
 
     @staticmethod
@@ -376,14 +376,14 @@ class Clock(models.Model):
 
     @staticmethod
     def sum_working_days(start, end):
-        test_date = datetime.datetime(start.year, start.month, start.day, 0, 0, 0)
-        end_date = datetime.datetime(end.year, end.month, end.day, 0, 0, 0)
+        test_date = timezone.make_aware(datetime.datetime(start.year, start.month, start.day, 0, 0, 0), timezone.get_default_timezone())
+        end_date = timezone.make_aware(datetime.datetime(end.year, end.month, end.day, 0, 0, 0), timezone.get_default_timezone())
         working_days_total = 0
         working_days = ClockOptions.get_for_user().working_days
         while (test_date <= end_date):
             if Clock.django_week_day(test_date) in working_days:
                 working_days_total += 1
-            test_date += datetime.timedelta(days=1)
+            test_date += timezone.timedelta(days=1)
         return working_days_total
 
     @staticmethod
@@ -462,16 +462,16 @@ class Clock(models.Model):
     @staticmethod
     def start_of_week(date):
         days_left_for_week = Clock.django_week_day(date) - sorted(ClockOptions.get_for_user().working_days).pop(0)
-        return date - datetime.timedelta(days=days_left_for_week)
+        return date - timezone.timedelta(days=days_left_for_week)
 
     @staticmethod
     def end_of_week(date):
         days_left_for_week = sorted(ClockOptions.get_for_user().working_days).pop() - Clock.django_week_day(date)
-        return date + datetime.timedelta(days=days_left_for_week)
+        return date + timezone.timedelta(days=days_left_for_week)
 
     @staticmethod
     def start_of_day(date):
-        return datetime.datetime(date.year, date.month, date.day)
+        return timezone.make_aware(datetime.datetime(date.year, date.month, date.day), timezone.get_default_timezone())
     
     @staticmethod
     def summarize(user, qs):
@@ -491,9 +491,9 @@ class Clock(models.Model):
             working_days_week = Clock.sum_working_days(Clock.start_of_week(from_start), Clock.end_of_week(to_start))
             days_actual = Clock.count_days(qs, from_start, max(to_start, to_end))
             hours_actual = Clock.sum_hours(qs, from_start, max(to_start, to_end))
-            today = Clock.start_of_day(datetime.datetime.today())
-            hours_today = Clock.sum_hours(qs, today, today + datetime.timedelta(days=1)) or 0
-            break_today = Clock.sum_breaks(qs, today, today + datetime.timedelta(days=1))
+            today = Clock.start_of_day(timezone.make_aware(datetime.datetime.today(), timezone.get_default_timezone()))
+            hours_today = Clock.sum_hours(qs, today, today + timezone.timedelta(days=1)) or 0
+            break_today = Clock.sum_breaks(qs, today, today + timezone.timedelta(days=1))
             if not break_today: 
                 projected_break = clock_options.unpaid_break
             else:
@@ -504,12 +504,13 @@ class Clock(models.Model):
         
         # User is currently clocked in: Add hours until now
         hours_counting = 0
-        max_clocked_in_time = Clock.start_of_day(to_start or datetime.datetime.now()) + datetime.timedelta(days=1)
-        if from_start and clocked_in_time != None and clocked_in_time.start >= from_start and clocked_in_time.start < max_clocked_in_time:
-            to_start = to_end = datetime.datetime.now()
-            hours_counting = Clock.hours_between(clocked_in_time.start, to_start)
-            hours_actual += hours_counting
-            hours_today += hours_counting
+        max_clocked_in_time = Clock.start_of_day(to_start or timezone.now()) + timezone.timedelta(days=1)
+        if from_start and clocked_in_time != None and clocked_in_time.start >= from_start  \
+            and clocked_in_time.start < max_clocked_in_time:
+                to_start = to_end = timezone.now()
+                hours_counting = Clock.hours_between(clocked_in_time.start, to_start)
+                hours_actual += hours_counting
+                hours_today += hours_counting
         balance = hours_actual - hours_target
         
         summary = {
@@ -524,8 +525,8 @@ class Clock(models.Model):
                 'weekly_target': clock_options.hours_per_week,
                 'average_daily': hours_actual / float(days_actual) if days_actual != 0 else 0,
                 'closing': {
-                    'regular': datetime.datetime.now() - datetime.timedelta(hours=hours_today - clock_options.hours_per_day) + datetime.timedelta(hours=projected_break),
-                    'adjusted': datetime.datetime.now() - datetime.timedelta(hours=balance) + datetime.timedelta(hours=projected_break),
+                    'regular': timezone.now() - timezone.timedelta(hours=hours_today - clock_options.hours_per_day) + timezone.timedelta(hours=projected_break),
+                    'adjusted': timezone.now() - timezone.timedelta(hours=balance) + timezone.timedelta(hours=projected_break),
                 },
                 'break_today': break_today or clock_options.unpaid_break,
             },
@@ -534,7 +535,7 @@ class Clock(models.Model):
                 'actual': days_actual,
             },
             'dates': {
-                'today': datetime.datetime.today(),
+                'today': timezone.make_aware(datetime.datetime.today(), timezone.get_default_timezone()),
                 'from': from_start,
                 'to': to_end
             },

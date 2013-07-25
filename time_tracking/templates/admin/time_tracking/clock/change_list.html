@@ -21,12 +21,12 @@
       </li>
     </ul>
     
-    <form id="clock-in-form" method="post" action="{% url admin:time_tracking_clock_in %}" style="display: block; position: relative; float: right">
+    <form id="clock-in-form" method="post" action="{% url "admin:time_tracking_clock_in" %}" style="display: block; position: relative; float: right">
         {% csrf_token %}
         {{ clock_in_form.as_p }}
     </form>
     <div style="float: none; clear: both"></div>
-    <form id="clock-out-form" method="post" action="{% url admin:time_tracking_clock_out %}">
+    <form id="clock-out-form" method="post" action="{% url "admin:time_tracking_clock_out" %}">
         {% csrf_token %}
     </form>
     <script type="text/javascript">

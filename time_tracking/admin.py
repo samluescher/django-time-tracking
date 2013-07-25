@@ -11,7 +11,6 @@ from django.utils.translation import ugettext_lazy as _, ugettext
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-import datetime
 
 
 class ActivityAdmin(admin.ModelAdmin):
@@ -118,7 +117,7 @@ class ClockAdmin(admin.ModelAdmin):
         else:
             initial = {'project': Project.get_latest_for_current_user()}
         extra_context = {
-            'time_info': Clock.summarize(request.user, cl.queryset(request)),
+            'time_info': Clock.summarize(request.user, cl.query_set),
             'clock_in_form': ClockInForm(initial=initial),
         }
         
