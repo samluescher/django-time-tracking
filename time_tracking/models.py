@@ -90,7 +90,8 @@ class Activity(models.Model):
 
     @staticmethod
     def get_latest_for_current_user():
-        return Clock.get_latest_value('activity', include_null=False)
+        return Clock.get_latest_value('activity', include_null=False)  \
+            or Activity.get_default()
 
     def __unicode__(self):
         return ugettext(self.name)
