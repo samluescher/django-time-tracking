@@ -82,17 +82,13 @@ class ClockAdmin(admin.ModelAdmin):
             self.exclude = ()
         return super(ClockAdmin, self).add_view(request, form_url, extra_context)
 
-    def change_view(self, request, object_id, extra_context=None):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
         if not request.user.has_perm('time_tracking.can_set_user'):
             self.exclude = ('user',)
         else:
             self.exclude = ()
             
-        return super(ClockAdmin, self).change_view(request, object_id, extra_context)
-
-    def test_view(self, request, extra_context=None):
-        request.user.message_set.create(message="yay")
-        return super(ClockAdmin, self).changelist_view(request, extra_context)
+        return super(ClockAdmin, self).change_view(request, object_id, form_url, extra_context)
 
     def changelist_view(self, request, extra_context=None):
         if not request.user.has_perm('time_tracking.can_set_user'):
